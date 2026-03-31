@@ -1,0 +1,2914 @@
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Бюджетирование, прогнозирование и оценка исполнения бюджета для ЦФО IT</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-alt: #f7f9fc;
+      --surface-soft: #eef4ff;
+      --line: #d9e2ef;
+      --line-strong: #b8c7da;
+      --text: #1f2a37;
+      --muted: #5b6b7f;
+      --heading: #102a56;
+      --navy: #143d7a;
+      --navy-2: #1e4f97;
+      --graphite: #2f3b4a;
+      --blue-soft: #dfeeff;
+      --blue-soft-2: #e8f3ff;
+      --accent: #2b6fd8;
+      --accent-2: #61a0ff;
+      --success: #1f8f5f;
+      --warning: #b7791f;
+      --danger: #c14a4a;
+      --shadow: 0 12px 28px rgba(14, 39, 76, 0.08);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --radius-xs: 10px;
+      --container: 1240px;
+      --transition: 220ms ease;
+      --font: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background:
+        radial-gradient(circle at top right, rgba(97, 160, 255, 0.12), transparent 26%),
+        linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img, svg {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(var(--container), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .page-shell {
+      padding-bottom: 56px;
+    }
+
+    /* =========================
+       Sticky Top Navigation
+    ========================= */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: rgba(248, 251, 255, 0.84);
+      border-bottom: 1px solid rgba(217, 226, 239, 0.85);
+      box-shadow: 0 6px 16px rgba(21, 49, 91, 0.04);
+    }
+
+    .topbar-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      min-height: 74px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--navy), var(--accent));
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      box-shadow: 0 10px 24px rgba(20, 61, 122, 0.22);
+      flex-shrink: 0;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--navy-2);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--heading);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-link {
+      padding: 10px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      background: rgba(43, 111, 216, 0.08);
+      color: var(--navy);
+      border-color: rgba(43, 111, 216, 0.14);
+      outline: none;
+    }
+
+    .nav-link.active {
+      background: linear-gradient(180deg, #eaf3ff 0%, #dbeaff 100%);
+      color: var(--navy);
+      border-color: rgba(43, 111, 216, 0.18);
+    }
+
+    .nav-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn,
+    .ghost-btn,
+    .tiny-btn,
+    .filter-chip,
+    .tab-btn {
+      transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition), opacity var(--transition);
+    }
+
+    .btn,
+    .ghost-btn,
+    .tiny-btn {
+      border: 1px solid transparent;
+      cursor: pointer;
+      border-radius: 999px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--navy), var(--accent));
+      color: #fff;
+      padding: 12px 18px;
+      box-shadow: 0 10px 24px rgba(20, 61, 122, 0.18);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(20, 61, 122, 0.22);
+      outline: none;
+    }
+
+    .ghost-btn,
+    .tiny-btn {
+      background: #fff;
+      border-color: var(--line);
+      color: var(--graphite);
+    }
+
+    .ghost-btn:hover,
+    .ghost-btn:focus-visible,
+    .tiny-btn:hover,
+    .tiny-btn:focus-visible {
+      background: var(--surface-soft);
+      border-color: var(--line-strong);
+      outline: none;
+    }
+
+    .ghost-btn {
+      padding: 12px 16px;
+    }
+
+    .tiny-btn {
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .topbar-actions-mobile {
+      display: none;
+    }
+
+    /* =========================
+       Hero
+    ========================= */
+    .hero {
+      padding: 34px 0 26px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .panel,
+    .surface-card,
+    .accordion,
+    .tab-panel,
+    .rule-highlight,
+    .checklist-card,
+    .example-wrap,
+    .footer-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(217, 226, 239, 0.95);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius-lg);
+    }
+
+    .hero-card {
+      padding: 32px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -10% -35% auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(97, 160, 255, 0.20), transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero-title {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.08;
+      color: var(--heading);
+      letter-spacing: -0.03em;
+    }
+
+    .hero-subtitle {
+      font-size: 1.04rem;
+      color: var(--graphite);
+      max-width: 860px;
+      margin: 0 0 20px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .hero-highlights {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 24px 0 0;
+    }
+
+    .highlight-card {
+      background: linear-gradient(180deg, rgba(239, 245, 255, 0.9), rgba(255, 255, 255, 0.96));
+      border: 1px solid rgba(210, 223, 244, 0.95);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      min-height: 120px;
+    }
+
+    .highlight-number {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--navy-2);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .highlight-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--heading);
+      margin-bottom: 6px;
+    }
+
+    .highlight-copy {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 16px;
+    }
+
+    .panel {
+      padding: 22px 20px;
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--heading);
+      margin: 0 0 12px;
+    }
+
+    .panel-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .dashboard-cards {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .dash-card {
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fbfdff 0%, #f2f7fe 100%);
+      border: 1px solid var(--line);
+    }
+
+    .dash-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .dash-label {
+      font-weight: 700;
+      color: var(--heading);
+      font-size: 14px;
+    }
+
+    .dash-value {
+      font-size: 14px;
+      color: var(--graphite);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .progress {
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #dfe7f2;
+      position: relative;
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--navy) 0%, var(--accent-2) 100%);
+      width: 0;
+      transition: width 700ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .compare-group {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .compare-item {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .compare-bar {
+      height: 12px;
+      border-radius: 999px;
+      background: #e3ebf5;
+      overflow: hidden;
+    }
+
+    .compare-bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, rgba(20,61,122,0.95), rgba(97,160,255,0.85));
+      transition: width 800ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    /* =========================
+       Main Content Sections
+    ========================= */
+    main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .section-anchor {
+      scroll-margin-top: 96px;
+    }
+
+    .surface-card {
+      padding: 28px 26px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--navy-2);
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    h2.section-title {
+      margin: 0;
+      font-size: clamp(1.42rem, 2vw, 2rem);
+      line-height: 1.12;
+      color: var(--heading);
+      letter-spacing: -0.02em;
+    }
+
+    .section-copy {
+      margin: 10px 0 0;
+      color: var(--muted);
+      max-width: 860px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--graphite);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .content-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .content-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .content-grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card,
+    .info-card,
+    .role-card,
+    .rule-card,
+    .reason-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+      padding: 18px 16px;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+    }
+
+    .mini-card:hover,
+    .info-card:hover,
+    .role-card:hover,
+    .rule-card:hover,
+    .reason-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(19, 50, 92, 0.08);
+      border-color: #c6d6ea;
+    }
+
+    .card-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: var(--heading);
+      font-weight: 800;
+    }
+
+    .card-text,
+    .card-list,
+    .inline-list {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .card-list,
+    .inline-list {
+      padding-left: 18px;
+    }
+
+    .card-list li + li,
+    .inline-list li + li {
+      margin-top: 6px;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 18px 18px 18px 20px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, rgba(225, 239, 255, 0.85), rgba(246, 250, 255, 0.95));
+      border: 1px solid #cfe0f6;
+      position: relative;
+    }
+
+    .callout::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 16px;
+      bottom: 16px;
+      width: 4px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--navy), var(--accent));
+    }
+
+    .callout-title {
+      margin: 0 0 6px;
+      padding-left: 10px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--heading);
+    }
+
+    .callout-text {
+      margin: 0;
+      padding-left: 10px;
+      color: var(--graphite);
+      font-size: 14px;
+    }
+
+    .note-soft {
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      background: #f9fbfe;
+      border: 1px dashed #c8d7eb;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* =========================
+       Accordions
+    ========================= */
+    .accordion-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .accordion-stack {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .accordion {
+      overflow: hidden;
+    }
+
+    .accordion-header {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 20px 22px;
+      color: inherit;
+    }
+
+    .accordion-header:hover,
+    .accordion-header:focus-visible {
+      background: rgba(235, 243, 255, 0.45);
+      outline: none;
+    }
+
+    .accordion-title {
+      margin: 0;
+      font-size: 1.02rem;
+      color: var(--heading);
+      font-weight: 800;
+    }
+
+    .accordion-subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .accordion-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--surface-soft);
+      color: var(--navy);
+      font-size: 20px;
+      font-weight: 400;
+      flex-shrink: 0;
+      transition: transform var(--transition), background var(--transition);
+    }
+
+    .accordion.open .accordion-icon {
+      transform: rotate(45deg);
+      background: #dbeaff;
+    }
+
+    .accordion-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 320ms ease;
+    }
+
+    .accordion.open .accordion-body {
+      grid-template-rows: 1fr;
+    }
+
+    .accordion-body-inner {
+      overflow: hidden;
+    }
+
+    .accordion-body-content {
+      padding: 0 22px 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    /* =========================
+       Tabs
+    ========================= */
+    .tabs {
+      margin-top: 8px;
+    }
+
+    .tab-list {
+      display: inline-flex;
+      padding: 6px;
+      border-radius: 999px;
+      background: #edf3fb;
+      border: 1px solid var(--line);
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .tab-btn.active,
+    .tab-btn:hover,
+    .tab-btn:focus-visible {
+      background: #fff;
+      color: var(--heading);
+      box-shadow: 0 6px 16px rgba(20, 61, 122, 0.08);
+      outline: none;
+    }
+
+    .tab-panels {
+      margin-top: 18px;
+    }
+
+    .tab-panel {
+      display: none;
+      padding: 22px;
+    }
+
+    .tab-panel.active {
+      display: block;
+      animation: fadeIn 320ms ease;
+    }
+
+    .tab-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .fact-boxes {
+      display: grid;
+      gap: 12px;
+    }
+
+    .fact-box {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      background: linear-gradient(180deg, #fbfdff 0%, #f4f8fd 100%);
+    }
+
+    .fact-box-title {
+      margin: 0 0 8px;
+      color: var(--heading);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .fact-box p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* =========================
+       Tooltip Terms
+    ========================= */
+    .term {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px dashed rgba(20, 61, 122, 0.35);
+      color: var(--navy);
+      font-weight: 700;
+      cursor: help;
+    }
+
+    .term::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 12px);
+      transform: translateX(-50%) translateY(6px);
+      min-width: 220px;
+      max-width: 300px;
+      padding: 12px 13px;
+      border-radius: 14px;
+      background: rgba(17, 34, 62, 0.96);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 500;
+      box-shadow: 0 18px 36px rgba(5, 13, 26, 0.28);
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+      z-index: 50;
+    }
+
+    .term::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 6px);
+      transform: translateX(-50%) translateY(6px);
+      border: 6px solid transparent;
+      border-top-color: rgba(17, 34, 62, 0.96);
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+      z-index: 51;
+    }
+
+    .term:hover::after,
+    .term:hover::before,
+    .term:focus-visible::after,
+    .term:focus-visible::before {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* =========================
+       Tables
+    ========================= */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+
+    th,
+    td {
+      padding: 14px 14px;
+      border-bottom: 1px solid #e8eef7;
+      vertical-align: top;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #f2f7fd;
+      color: var(--heading);
+      font-weight: 800;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tbody tr:hover {
+      background: #fbfdff;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .mono {
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .positive {
+      color: var(--success);
+      font-weight: 800;
+    }
+
+    .negative {
+      color: var(--danger);
+      font-weight: 800;
+    }
+
+    .neutral {
+      color: var(--warning);
+      font-weight: 800;
+    }
+
+    /* =========================
+       Role Cards
+    ========================= */
+    .role-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .role-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -50px auto;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(97, 160, 255, 0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .role-card.active {
+      border-color: #a8c3eb;
+      background: linear-gradient(180deg, #f1f7ff 0%, #ffffff 100%);
+      box-shadow: 0 16px 30px rgba(20, 61, 122, 0.10);
+    }
+
+    .role-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .role-badge {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--navy);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       Reasons / Filters
+    ========================= */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .filter-chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--graphite);
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .filter-chip:hover,
+    .filter-chip:focus-visible,
+    .filter-chip.active {
+      background: var(--surface-soft);
+      border-color: #b9d0ee;
+      color: var(--navy);
+      outline: none;
+    }
+
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .reason-card.hidden {
+      display: none;
+    }
+
+    .reason-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    .badge-volume { background: #e8f3ff; color: #0f4c93; }
+    .badge-price { background: #eef7ee; color: #24734a; }
+    .badge-timing { background: #fff5e8; color: #9c6710; }
+    .badge-oneoff { background: #fdeef1; color: #a63d58; }
+    .badge-planning { background: #f5eefc; color: #6f46b6; }
+    .badge-posting { background: #edf2f7; color: #4b5d70; }
+    .badge-project { background: #e8fbf8; color: #0f7a68; }
+
+    /* =========================
+       Rules
+    ========================= */
+    .rule-highlight {
+      padding: 24px 22px;
+      border: 1px solid #c8daf5;
+      background: linear-gradient(180deg, rgba(231, 241, 255, 0.92), rgba(255, 255, 255, 0.96));
+    }
+
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .rule-card {
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .rule-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 800;
+      margin-bottom: 12px;
+      box-shadow: 0 10px 22px rgba(20, 61, 122, 0.16);
+    }
+
+    /* =========================
+       Checklist
+    ========================= */
+    .checklist-card {
+      padding: 26px 24px;
+    }
+
+    .checklist-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .checklist-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .checklist-progress {
+      min-width: 180px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .checklist-progress .progress {
+      height: 12px;
+    }
+
+    .checklist-counter {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .checklist-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      transition: var(--transition);
+    }
+
+    .check-item:hover {
+      background: #fbfdff;
+      border-color: #c9d9ee;
+    }
+
+    .check-item.completed {
+      background: #f2fbf6;
+      border-color: #bfe0ce;
+    }
+
+    .check-item input[type="checkbox"] {
+      margin-top: 2px;
+      width: 20px;
+      height: 20px;
+      accent-color: var(--navy);
+      cursor: pointer;
+    }
+
+    .check-title {
+      font-size: 15px;
+      color: var(--heading);
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .check-desc {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* =========================
+       Example section
+    ========================= */
+    .example-wrap {
+      padding: 26px 24px;
+    }
+
+    .example-summary {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f3f8ff 0%, #fbfdff 100%);
+      border: 1px solid var(--line);
+    }
+
+    .example-summary h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: var(--heading);
+    }
+
+    .example-summary p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* =========================
+       Footer / Final
+    ========================= */
+    .footer-card {
+      padding: 28px 26px;
+      background: linear-gradient(180deg, #ffffff 0%, #f6faff 100%);
+    }
+
+    .decision-principles {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .principle {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .principle-title {
+      margin: 0 0 8px;
+      font-size: 14px;
+      color: var(--heading);
+      font-weight: 800;
+    }
+
+    .principle p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* =========================
+       Reveal Animations
+    ========================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================
+       Responsive
+    ========================= */
+    @media (max-width: 1180px) {
+      .hero-grid,
+      .tab-grid,
+      .content-grid-4,
+      .decision-principles,
+      .rules-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .content-grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 980px) {
+      .topbar-inner {
+        grid-template-columns: 1fr;
+        padding: 14px 0;
+      }
+
+      .nav-wrap {
+        justify-content: flex-start;
+      }
+
+      .hero-grid,
+      .content-grid-2,
+      .content-grid-3,
+      .content-grid-4,
+      .reasons-grid,
+      .decision-principles,
+      .rules-grid,
+      .tab-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-highlights {
+        grid-template-columns: 1fr;
+      }
+
+      .compare-item {
+        grid-template-columns: 70px 1fr auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(var(--container), calc(100% - 20px));
+      }
+
+      .hero-card,
+      .surface-card,
+      .panel,
+      .checklist-card,
+      .example-wrap,
+      .footer-card,
+      .rule-highlight {
+        padding: 22px 18px;
+      }
+
+      .accordion-header {
+        padding: 18px;
+      }
+
+      .accordion-body-content {
+        padding: 0 18px 18px;
+      }
+
+      .nav-links {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+      }
+
+      .nav-tools {
+        display: none;
+      }
+
+      .topbar-actions-mobile {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .brand-title {
+        white-space: normal;
+      }
+    }
+
+    /* =========================
+       Print Styles
+    ========================= */
+    @media print {
+      :root {
+        --bg: #ffffff;
+        --surface: #ffffff;
+        --surface-alt: #ffffff;
+        --surface-soft: #f3f3f3;
+        --line: #d7d7d7;
+        --line-strong: #bfbfbf;
+        --text: #111111;
+        --muted: #444444;
+        --heading: #000000;
+        --navy: #000000;
+        --navy-2: #222222;
+        --graphite: #222222;
+        --blue-soft: #f2f2f2;
+        --blue-soft-2: #f7f7f7;
+        --accent: #000000;
+        --accent-2: #333333;
+        --shadow: none;
+      }
+
+      * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      body {
+        background: #fff !important;
+        color: #111 !important;
+        font-size: 11pt;
+      }
+
+      .topbar,
+      .accordion-controls,
+      .topbar-actions-mobile,
+      .nav-tools,
+      .filters,
+      .checklist-progress,
+      .btn-print-only-hide,
+      .term::after,
+      .term::before {
+        display: none !important;
+      }
+
+      .page-shell {
+        padding-bottom: 0;
+      }
+
+      .hero,
+      .surface-card,
+      .hero-card,
+      .panel,
+      .checklist-card,
+      .example-wrap,
+      .footer-card,
+      .accordion,
+      .tab-panel,
+      .rule-highlight {
+        background: #fff !important;
+        border-color: #d7d7d7 !important;
+        border-radius: 10px !important;
+      }
+
+      .hero {
+        padding-top: 0;
+      }
+
+      .hero-grid,
+      .content-grid-2,
+      .content-grid-3,
+      .content-grid-4,
+      .reasons-grid,
+      .rules-grid,
+      .decision-principles,
+      .tab-grid {
+        display: block !important;
+      }
+
+      .hero-card,
+      .panel,
+      .surface-card,
+      .checklist-card,
+      .example-wrap,
+      .footer-card,
+      .accordion,
+      .tab-panel,
+      .rule-highlight {
+        margin-bottom: 12px !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .accordion-body {
+        grid-template-rows: 1fr !important;
+      }
+
+      .accordion-body-inner {
+        overflow: visible !important;
+      }
+
+      .accordion-header {
+        padding-bottom: 12px !important;
+      }
+
+      .accordion-icon {
+        display: none !important;
+      }
+
+      .compare-bar,
+      .progress {
+        border: 1px solid #cfcfcf;
+      }
+
+      .progress > span,
+      .compare-bar span {
+        background: #666 !important;
+      }
+
+      .check-item,
+      .mini-card,
+      .info-card,
+      .role-card,
+      .rule-card,
+      .reason-card,
+      .principle {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 10px;
+      }
+
+      table {
+        min-width: 0 !important;
+      }
+
+      th {
+        position: static !important;
+      }
+
+      a[href]::after {
+        content: "";
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar" aria-label="Основная навигация">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">IT</div>
+          <div class="brand-copy">
+            <div class="brand-eyebrow">Internal digital manual</div>
+            <div class="brand-title">Бюджетирование, прогнозирование и оценка исполнения бюджета для ЦФО IT</div>
+          </div>
+        </div>
+
+        <div class="nav-wrap">
+          <nav class="nav-links" id="topNav">
+            <a class="nav-link" href="#hero">Обзор</a>
+            <a class="nav-link" href="#purpose">Назначение</a>
+            <a class="nav-link" href="#plan-forecast-fact">План / Прогноз / Факт</a>
+            <a class="nav-link" href="#budget-structure">Статьи бюджета</a>
+            <a class="nav-link" href="#budgeting">Формирование бюджета</a>
+            <a class="nav-link" href="#forecasting">Прогноз</a>
+            <a class="nav-link" href="#performance">Исполнение</a>
+            <a class="nav-link" href="#deviations">Отклонения</a>
+            <a class="nav-link" href="#roles">Роли</a>
+            <a class="nav-link" href="#rules">Правила</a>
+            <a class="nav-link" href="#checklist">Чек-лист</a>
+            <a class="nav-link" href="#example">Пример</a>
+            <a class="nav-link" href="#final">Выводы</a>
+          </nav>
+
+          <div class="nav-tools">
+            <button class="ghost-btn btn-print-only-hide" type="button" id="expandAllBtn">Показать все разделы</button>
+            <button class="ghost-btn btn-print-only-hide" type="button" id="collapseAllBtn">Скрыть все разделы</button>
+            <button class="btn btn-print-only-hide" type="button" id="printBtn">Печать</button>
+          </div>
+        </div>
+
+        <div class="topbar-actions-mobile">
+          <button class="tiny-btn btn-print-only-hide" type="button" id="expandAllBtnMobile">Показать всё</button>
+          <button class="tiny-btn btn-print-only-hide" type="button" id="collapseAllBtnMobile">Скрыть всё</button>
+          <button class="tiny-btn btn-print-only-hide" type="button" id="printBtnMobile">Печать</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- =========================
+           Hero
+      ========================== -->
+      <section class="hero section-anchor reveal" id="hero">
+        <div class="hero-grid">
+          <div class="hero-card">
+            <div class="hero-kicker">Методичка для руководителя ЦФО IT</div>
+            <h1 class="hero-title">Бюджетирование, прогнозирование и оценка исполнения бюджета для ЦФО IT</h1>
+            <p class="hero-subtitle">
+              Краткое корпоративное руководство для руководителя IT, IT-менеджеров, владельцев статей бюджета и сотрудников, участвующих в планировании, прогнозировании и контроле расходов.
+            </p>
+
+            <div class="hero-meta">
+              <div class="meta-chip">Единый практический подход</div>
+              <div class="meta-chip">План → Прогноз → Факт</div>
+              <div class="meta-chip">Причина → Действие → Ответственный</div>
+              <div class="meta-chip">Экран + печать</div>
+            </div>
+
+            <div class="hero-highlights">
+              <article class="highlight-card">
+                <div class="highlight-number">01</div>
+                <div class="highlight-title">Бюджет от реальной потребности</div>
+                <p class="highlight-copy">Расходы формируются от операционных драйверов, а не только от прошлогоднего факта.</p>
+              </article>
+              <article class="highlight-card">
+                <div class="highlight-number">02</div>
+                <div class="highlight-title">Прогноз — честная оценка</div>
+                <p class="highlight-copy">Прогноз показывает ожидаемый итог периода и не должен “подгоняться” под план.</p>
+              </article>
+              <article class="highlight-card">
+                <div class="highlight-number">03</div>
+                <div class="highlight-title">Отклонение нужно объяснять</div>
+                <p class="highlight-copy">Важно раскрывать не только цифру, но и причину, влияние на год и действие руководителя.</p>
+              </article>
+              <article class="highlight-card">
+                <div class="highlight-number">04</div>
+                <div class="highlight-title">Перенос не равен экономии</div>
+                <p class="highlight-copy">Смещение расхода между месяцами не должно восприниматься как достижение по бюджету.</p>
+              </article>
+            </div>
+          </div>
+
+          <aside class="hero-side">
+            <section class="panel">
+              <h2 class="panel-title">Кому предназначен документ</h2>
+              <p class="panel-copy">
+                Руководителю IT / руководителю ЦФО IT, IT-менеджерам, владельцам статей бюджета и сотрудникам, участвующим в планировании и контроле затрат.
+              </p>
+            </section>
+
+            <section class="panel" aria-labelledby="dash-title">
+              <h2 class="panel-title" id="dash-title">Mini-dashboard управленческого цикла</h2>
+              <p class="panel-copy">Компактная визуализация для быстрого восприятия логики контроля бюджета.</p>
+
+              <div class="dashboard-cards">
+                <div class="dash-card">
+                  <div class="dash-row">
+                    <div class="dash-label">Исполнение плана</div>
+                    <div class="dash-value">Факт 82%</div>
+                  </div>
+                  <div class="progress" data-progress="82"><span></span></div>
+                </div>
+
+                <div class="dash-card">
+                  <div class="dash-row">
+                    <div class="dash-label">Ожидаемый итог</div>
+                    <div class="dash-value">Прогноз 94%</div>
+                  </div>
+                  <div class="progress" data-progress="94"><span></span></div>
+                </div>
+
+                <div class="dash-card">
+                  <div class="dash-row">
+                    <div class="dash-label">Качество прогноза</div>
+                    <div class="dash-value">Точность 88%</div>
+                  </div>
+                  <div class="progress" data-progress="88"><span></span></div>
+
+                  <div class="compare-group" aria-label="Сравнение план, факт, прогноз">
+                    <div class="compare-item">
+                      <span>План</span>
+                      <div class="compare-bar" data-compare="100"><span></span></div>
+                      <strong>100%</strong>
+                    </div>
+                    <div class="compare-item">
+                      <span>Факт</span>
+                      <div class="compare-bar" data-compare="82"><span></span></div>
+                      <strong>82%</strong>
+                    </div>
+                    <div class="compare-item">
+                      <span>Прогноз</span>
+                      <div class="compare-bar" data-compare="94"><span></span></div>
+                      <strong>94%</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </section>
+
+      <!-- =========================
+           Purpose
+      ========================== -->
+      <section class="surface-card section-anchor reveal" id="purpose">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">1. Назначение документа</div>
+            <h2 class="section-title">Для чего нужна эта методичка</h2>
+            <p class="section-copy">
+              Документ задаёт единый практический подход к планированию бюджета, обновлению прогноза, контролю исполнения и анализу отклонений в IT-подразделении.
+            </p>
+          </div>
+          <div class="tag-row">
+            <span class="tag">Планирование</span>
+            <span class="tag">Прогноз</span>
+            <span class="tag">Контроль</span>
+            <span class="tag">Корректирующие действия</span>
+          </div>
+        </div>
+
+        <div class="content-grid-2">
+          <article class="mini-card">
+            <div class="card-label">Цель</div>
+            <h3 class="card-title">Сделать расходы управляемыми и объяснимыми</h3>
+            <p class="card-text">
+              Методичка помогает руководителю ЦФО IT не просто фиксировать цифры, а понимать структуру расходов, заранее видеть риски и принимать решения по отклонениям.
+            </p>
+          </article>
+
+          <article class="mini-card">
+            <div class="card-label">Практический результат</div>
+            <h3 class="card-title">Единый язык для IT и финансов</h3>
+            <p class="card-text">
+              Все существенные статьи должны иметь расчёт, драйвер, срок, комментарий по рискам и понятного ответственного.
+            </p>
+          </article>
+        </div>
+
+        <div class="callout">
+          <h3 class="callout-title">Управленческий акцент</h3>
+          <p class="callout-text">
+            Смысл документа — не в формальном согласовании бюджета, а в регулярном управлении расходами: что запланировано, что реально произошло, что ожидается к концу периода и что должен сделать руководитель.
+          </p>
+        </div>
+      </section>
+
+      <!-- =========================
+           Plan / Forecast / Fact
+      ========================== -->
+      <section class="surface-card section-anchor reveal" id="plan-forecast-fact">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">2. План, прогноз и факт</div>
+            <h2 class="section-title">Три обязательных управленческих показателя</h2>
+            <p class="section-copy">
+              IT-подразделение должно использовать
+              <span class="term" tabindex="0" data-tooltip="Утверждённый бюджет на период. Задаёт лимит и целевой ориентир.">план</span>,
+              <span class="term" tabindex="0" data-tooltip="Актуальная оценка ожидаемого результата на конец периода. Показывает риск перерасхода или экономии заранее.">прогноз</span>
+              и
+              <span class="term" tabindex="0" data-tooltip="Реально отражённые расходы за период. Показывают, что уже произошло.">факт</span>
+              как основу для контроля расходов.
+            </p>
+          </div>
+        </div>
+
+        <div class="tabs" data-tabs>
+          <div class="tab-list" role="tablist" aria-label="План, прогноз и факт">
+            <button class="tab-btn active" type="button" role="tab" aria-selected="true" data-tab-target="plan-panel">План</button>
+            <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab-target="forecast-panel">Прогноз</button>
+            <button class="tab-btn" type="button" role="tab" aria-selected="false" data-tab-target="fact-panel">Факт</button>
+          </div>
+
+          <div class="tab-panels">
+            <section class="tab-panel active" id="plan-panel" role="tabpanel">
+              <div class="tab-grid">
+                <div class="fact-boxes">
+                  <article class="fact-box">
+                    <h3 class="fact-box-title">Что это</h3>
+                    <p>Утверждённый бюджет на период. Он задаёт лимит, ориентир и точку контроля.</p>
+                  </article>
+                  <article class="fact-box">
+                    <h3 class="fact-box-title">Для чего нужен</h3>
+                    <p>Чтобы согласовать объём допустимых расходов и определить, что считается отклонением.</p>
+                  </article>
+                  <article class="fact-box">
+                    <h3 class="fact-box-title">Практический смысл</h3>
+                    <p>План — это согласованная база, от которой начинается контроль. Он не меняется только потому, что изменились ожидания.</p>
+                  </article>
+                </div>
+                <div class="note-soft">
+                  <strong>Как понимать на практике.</strong><br>
+                  План нужен не для “красивой цифры”, а для управленческого лимита. Если статья значимая, по ней должен быть расчёт через
+                  <span class="term" tabindex="0" data-tooltip="Фактор, через который объясняется и рассчитывается расход: количество пользователей, тариф, объём, срок, число рабочих мест и т.д.">драйвер</span>.
+                </div>
+              </div>
+            </section>
+
+            <section class="tab-panel" id="forecast-panel" role="tabpanel">
+              <div class="tab-grid">
+                <div class="fact-boxes">
+                  <article class="fact-box">
+                    <h3 class="fact-box-title">Что это</h3>
+                    <p>Актуальная оценка ожидаемого результата на конец месяца, квартала или года.</p>
+                  </article>
+                  <article class="fact-box">
+                    <h3 class="fact-box-title">Для чего нужен</h3>
+                    <p>Чтобы заранее увидеть риск перерасхода, экономии, сдвига закупок или изменения потребности.</p>
+                  </article>
+                  <article class="fact-box">
+                    <h3 class="fact-box-title">Практический смысл</h3>
+                    <p>Прогноз — это не повторение плана. Он должен честно показывать ожидаемый итог периода.</p>
+                  </article>
+                </div>
+                <div class="note-soft">
+                  <strong>Как понимать на практике.</strong><br>
+                  Если ожидается перерасход, его нужно показать сразу. Прогноз нельзя “подгонять” под план, иначе теряется управленческая ценность отчёта.
+                </div>
+              </div>
+            </section>
+
+            <section class="tab-panel" id="fact-panel" role="tabpanel">
+              <div class="tab-grid">
+                <div class="fact-boxes">
+                  <article class="fact-box">
+                    <h3 class="fact-box-title">Что это</h3>
+                    <p>Реально отражённые расходы за период на основании учёта.</p>
+                  </article>
+                  <article class="fact-box">
+                    <h3 class="fact-box-title">Для чего нужен</h3>
+                    <p>Чтобы понять, что уже произошло, и использовать эти данные как базу для прогноза и анализа.</p>
+                  </article>
+                  <article class="fact-box">
+                    <h3 class="fact-box-title">Практический смысл</h3>
+                    <p>Факт подтверждает понесённые расходы, но сам по себе не объясняет, почему возникло
+                      <span class="term" tabindex="0" data-tooltip="Разница между планом, прогнозом и фактом. Требует объяснения причины и управленческого действия.">отклонение</span>.
+                    </p>
+                  </article>
+                </div>
+                <div class="note-soft">
+                  <strong>Как понимать на практике.</strong><br>
+                  Факт без комментария — это только бухгалтерская фиксация. Для управленческого анализа его нужно сопоставлять с планом и прогнозом.
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="callout">
+          <h3 class="callout-title">Главная логика блока</h3>
+          <p class="callout-text">
+            План отвечает на вопрос “что согласовано”, прогноз — “что ожидается”, факт — “что уже произошло”. Только вместе эти три показателя дают полноценную управленческую картину.
+          </p>
+        </div>
+      </section>
+
+      <!-- =========================
+           Budget structure
+      ========================== -->
+      <section class="surface-card section-anchor reveal" id="budget-structure">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">3. Что входит в бюджет ЦФО IT</div>
+            <h2 class="section-title">Типовые статьи бюджета и обязательный состав данных</h2>
+            <p class="section-copy">
+              В бюджет IT рекомендуется включать только те статьи, по которым подразделение может дать понятное обоснование и управленческий комментарий.
+            </p>
+          </div>
+        </div>
+
+        <div class="content-grid-3">
+          <article class="info-card">
+            <div class="card-label">Типовые статьи</div>
+            <ul class="card-list">
+              <li>Лицензии и подписки</li>
+              <li>Сопровождение и техподдержка</li>
+              <li>Услуги подрядчиков</li>
+              <li>Закупка оборудования</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <div class="card-label">Продолжение</div>
+            <ul class="card-list">
+              <li>Ремонт и обслуживание техники</li>
+              <li>Связь и каналы</li>
+              <li>Облачные сервисы и хостинг</li>
+              <li>Информационная безопасность</li>
+            </ul>
+          </article>
+          <article class="info-card">
+            <div class="card-label">Прочие статьи</div>
+            <ul class="card-list">
+              <li>Расходные материалы</li>
+              <li>Обучение IT-персонала</li>
+              <li>Прочие ИТ-расходы</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="rule-highlight" style="margin-top:18px;">
+          <div class="section-head" style="margin-bottom:12px;">
+            <div>
+              <div class="eyebrow">Что обязательно должно быть по каждой статье</div>
+              <h3 class="section-title" style="font-size:1.35rem;">Минимальный паспорт статьи бюджета</h3>
+            </div>
+          </div>
+
+          <div class="content-grid-4">
+            <article class="rule-card">
+              <div class="card-title">Что это за расход</div>
+              <p class="card-text">Наименование статьи и сумма.</p>
+            </article>
+            <article class="rule-card">
+              <div class="card-title">Когда он возникает</div>
+              <p class="card-text">Период возникновения расхода и помесячная логика.</p>
+            </article>
+            <article class="rule-card">
+              <div class="card-title">Почему сумма такая</div>
+              <p class="card-text">Основание расчёта и ключевой драйвер.</p>
+            </article>
+            <article class="rule-card">
+              <div class="card-title">Кто отвечает</div>
+              <p class="card-text">Ответственный и комментарий по рискам.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           Budgeting
+      ========================== -->
+      <section class="surface-card section-anchor reveal" id="budgeting">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">4. Как IT формирует бюджет</div>
+            <h2 class="section-title">Бюджет должен строиться от реальной операционной потребности</h2>
+            <p class="section-copy">
+              Основная логика — не копировать прошлый факт, а рассчитать статьи через понятные драйверы и подтверждённые исходные данные.
+            </p>
+          </div>
+          <div class="accordion-controls btn-print-only-hide">
+            <button class="tiny-btn" type="button" data-accordion-open="budget-steps">Показать блок</button>
+            <button class="tiny-btn" type="button" data-accordion-close="budget-steps">Скрыть блок</button>
+          </div>
+        </div>
+
+        <div class="accordion-stack">
+          <article class="accordion open" id="budget-steps">
+            <button class="accordion-header" type="button" aria-expanded="true">
+              <div>
+                <h3 class="accordion-title">Основные шаги формирования бюджета</h3>
+                <p class="accordion-subtitle">Состав расходов → исходные данные → расчёт статьи через драйвер</p>
+              </div>
+              <span class="accordion-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                <div class="accordion-body-content">
+                  <div class="content-grid-3" style="margin-top:18px;">
+                    <article class="mini-card">
+                      <div class="card-label">Шаг 1</div>
+                      <h3 class="card-title">Определить состав расходов</h3>
+                      <ul class="card-list">
+                        <li>Регулярные расходы</li>
+                        <li>Разовые расходы</li>
+                        <li>Обязательные расходы</li>
+                        <li>Управляемые расходы</li>
+                      </ul>
+                    </article>
+
+                    <article class="mini-card">
+                      <div class="card-label">Шаг 2</div>
+                      <h3 class="card-title">Собрать исходные данные</h3>
+                      <ul class="card-list">
+                        <li>Факт прошлого периода</li>
+                        <li>Действующие договоры</li>
+                        <li>Количество пользователей и рабочих мест</li>
+                        <li>План найма и план проектов</li>
+                        <li>График продления лицензий</li>
+                        <li>Тарифы поставщиков и подрядчиков</li>
+                      </ul>
+                    </article>
+
+                    <article class="mini-card">
+                      <div class="card-label">Шаг 3</div>
+                      <h3 class="card-title">Рассчитать статьи бюджета</h3>
+                      <p class="card-text">
+                        Каждая значимая статья должна быть рассчитана через
+                        <span class="term" tabindex="0" data-tooltip="Понятный фактор расчёта расхода: количество пользователей, тариф, число устройств, объём потребления, срок поставки и т.д.">драйвер</span>,
+                        а не просто повторять прошлый факт.
+                      </p>
+                    </article>
+                  </div>
+
+                  <div class="table-wrap" style="margin-top:18px;">
+                    <table aria-label="Примеры драйверов для IT">
+                      <thead>
+                        <tr>
+                          <th>Статья</th>
+                          <th>Драйвер</th>
+                          <th>Комментарий</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Лицензии ПО</td>
+                          <td>Количество пользователей</td>
+                          <td>Проверяется по плану найма, доступам и числу фактических учётных записей.</td>
+                        </tr>
+                        <tr>
+                          <td>Сопровождение систем</td>
+                          <td>Количество систем / договоров</td>
+                          <td>Важно отделять обязательные сервисные контракты от разовых работ.</td>
+                        </tr>
+                        <tr>
+                          <td>Закупка ноутбуков</td>
+                          <td>Новые сотрудники / замена техники</td>
+                          <td>Привязывается к кадровому плану и графику обновления парка.</td>
+                        </tr>
+                        <tr>
+                          <td>Облачные сервисы</td>
+                          <td>Объём потребления / тариф</td>
+                          <td>Оценивается по архитектуре, лимитам и ожидаемой нагрузке.</td>
+                        </tr>
+                        <tr>
+                          <td>Поддержка рабочих мест</td>
+                          <td>Количество рабочих мест</td>
+                          <td>Актуализируется вместе с численностью и обеспеченностью пользователей.</td>
+                        </tr>
+                        <tr>
+                          <td>Инфобез</td>
+                          <td>Количество защищаемых устройств / сервисов</td>
+                          <td>Нужен отдельный комментарий по обязательности и рискам.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="callout">
+                    <h3 class="callout-title">5 вопросов руководителя IT по каждой значимой статье</h3>
+                    <p class="callout-text">
+                      1) Что именно оплачивается? 2) Почему это нужно бизнесу? 3) Чем подтверждается сумма? 4) Когда расход реально возникнет? 5) Можно ли его сократить, перенести или оптимизировать?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =========================
+           Forecasting
+      ========================== -->
+      <section class="surface-card section-anchor reveal" id="forecasting">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">5. Как IT делает прогноз</div>
+            <h2 class="section-title">Прогноз нужен, чтобы заранее увидеть ожидаемый результат</h2>
+            <p class="section-copy">
+              Минимальная частота обновления — ежемесячно. Дополнительно прогноз должен пересматриваться при изменении ключевых условий потребления и закупок.
+            </p>
+          </div>
+        </div>
+
+        <div class="accordion-stack">
+          <article class="accordion open">
+            <button class="accordion-header" type="button" aria-expanded="true">
+              <div>
+                <h3 class="accordion-title">Когда обновляется прогноз</h3>
+                <p class="accordion-subtitle">Ежемесячно и при изменении ключевых драйверов расходов</p>
+              </div>
+              <span class="accordion-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="accordion-body">
+              <div class="accordion-body-inner">
+                <div class="accordion-body-content">
+                  <div class="content-grid-3" style="margin-top:18px;">
+                    <article class="mini-card">
+                      <div class="card-label">Регулярно</div>
+                      <h3 class="card-title">Минимум ежемесячно</h3>
+                      <p class="card-text">Даже если “ничего не изменилось”, прогноз должен быть пересмотрен и подтверждён.</p>
+                    </article>
+                    <article class="mini-card">
+                      <div class="card-label">Триггеры пересмотра</div>
+                      <h3 class="card-title">Что обязательно учитывать</h3>
+                      <ul class="card-list">
+                        <li>Изменение количества пользователей</li>
+                        <li>Запуск новых проектов</li>
+                        <li>Перенос закупок</li>
+                        <li>Изменение цен поставщиков</li>
+                        <li>Найм сотрудников</li>
+                        <li>Изменение архитектуры или потребления сервисов</li>
+                      </ul>
+                    </article>
+                    <article class="mini-card">
+                      <div class="card-label">Формула</div>
+                      <h3 class="card-title">Простая логика прогноза</h3>
+                      <p class="card-text"><strong>Прогноз = факт на текущую дату + ожидаемые расходы до конца периода</strong></p>
+                    </article>
+                  </div>
+
+                  <div class="content-grid-2" style="margin-top:18px;">
+                    <article class="info-card">
+                      <div class="card-label">Что включать в прогноз</div>
+                      <ul class="card-list">
+                        <li>Уже понесённые расходы</li>
+                        <li>Подписанные обязательства</li>
+                        <li>Ожидаемые продления</li>
+                        <li>Переносы поставок</li>
+                        <li>Внеплановые потребности</li>
+                        <li>Риски роста цены или объёма</li>
+                      </ul>
+                    </article>
+                    <article class="info-card">
+                      <div class="card-label">Главное правило</div>
+                      <h3 class="card-title">Перерасход нужно показывать сразу</h3>
+                      <p class="card-text">
+                        Прогноз не должен маскировать отклонение. Его задача — заранее показать управленческий риск и дать время на действие.
+                      </p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- =========================
+           Performance
+      ========================== -->
+      <section class="surface-card section-anchor reveal" id="performance">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">6. Как оценивать исполнение бюджета</div>
+            <h2 class="section-title">Анализ должен строиться по трём управленческим срезам</h2>
+            <p class="section-copy">
+              План / факт показывает исполнение утверждённого бюджета, план / прогноз — риск отклонения, прогноз / факт — качество прогнозирования.
+            </p>
+          </div>
+        </div>
+
+        <div class="content-grid-3">
+          <article class="mini-card">
+            <div class="card-label">Срез 1</div>
+            <h3 class="card-title">План / Факт</h3>
+            <p class="card-text">Показывает, как исполняется утверждённый бюджет и где уже возникли реальные отклонения.</p>
+          </article>
+          <article class="mini-card">
+            <div class="card-label">Срез 2</div>
+            <h3 class="card-title">План / Прогноз</h3>
+            <p class="card-text">Показывает ожидаемый риск отклонения по итогам периода до его фактического завершения.</p>
+          </article>
+          <article class="mini-card">
+            <div class="card-label">Срез 3</div>
+            <h3 class="card-title">Прогноз / Факт</h3>
+            <p class="card-text">Показывает, насколько качественно подразделение умеет прогнозировать будущие расходы.</p>
+          </article>
+        </div>
+
+        <div class="callout">
+          <h3 class="callout-title">Что анализировать в первую очередь</h3>
+          <p class="callout-text">
+            Крупные отклонения по сумме, повторяющиеся отклонения, переносы между месяцами, новые статьи вне плана, отклонения по обязательным расходам и по проектным / разовым расходам.
+          </p>
+        </div>
+      </section>
+
+      <!-- =========================
+           Deviations
+      ========================== -->
+      <section class="surface-card section-anchor reveal" id="deviations">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">7. Типовые причины отклонений и действия</div>
+            <h2 class="section-title">Причину нужно называть управленчески, а не только цифрой</h2>
+            <p class="section-copy">
+              Ниже — типовые сценарии отклонений в IT. Используйте фильтры, чтобы быстро выделять категории причин.
+            </p>
+          </div>
+        </div>
+
+        <div class="filters btn-print-only-hide" id="reasonFilters" aria-label="Фильтр причин отклонений">
+          <button class="filter-chip active" type="button" data-filter="all">Все</button>
+          <button class="filter-chip" type="button" data-filter="volume">Объём</button>
+          <button class="filter-chip" type="button" data-filter="price">Цена</button>
+          <button class="filter-chip" type="button" data-filter="timing">Срок</button>
+          <button class="filter-chip" type="button" data-filter="oneoff">Разовый фактор</button>
+          <button class="filter-chip" type="button" data-filter="planning">Ошибка планирования</button>
+          <button class="filter-chip" type="button" data-filter="posting">Ошибка отражения</button>
+          <button class="filter-chip" type="button" data-filter="project">Изменение проекта</button>
+        </div>
+
+        <div class="reasons-grid" id="reasonsGrid">
+          <article class="reason-card" data-category="volume">
+            <div class="reason-top">
+              <h3 class="card-title">Рост количества пользователей</h3>
+              <span class="badge badge-volume">Объём</span>
+            </div>
+            <p class="card-text"><strong>Как выглядит:</strong> увеличились лицензии, учётные записи, сервисные расходы.</p>
+            <p class="card-text" style="margin-top:8px;"><strong>Что делать:</strong> пересчитать прогноз и годовую потребность, проверить влияние на лимит.</p>
+          </article>
+
+          <article class="reason-card" data-category="price">
+            <div class="reason-top">
+              <h3 class="card-title">Рост цены поставщика</h3>
+              <span class="badge badge-price">Цена</span>
+            </div>
+            <p class="card-text"><strong>Как выглядит:</strong> выросла стоимость лицензий, сервисов или поддержки.</p>
+            <p class="card-text" style="margin-top:8px;"><strong>Что делать:</strong> пересмотреть поставщика, объём, условия договора или модель закупки.</p>
+          </article>
+
+          <article class="reason-card" data-category="timing">
+            <div class="reason-top">
+              <h3 class="card-title">Перенос поставки</h3>
+              <span class="badge badge-timing">Срок</span>
+            </div>
+            <p class="card-text"><strong>Как выглядит:</strong> оборудование или услуга не пришли в срок.</p>
+            <p class="card-text" style="margin-top:8px;"><strong>Что делать:</strong> сдвинуть прогноз по месяцам и не считать это экономией.</p>
+          </article>
+
+          <article class="reason-card" data-category="oneoff">
+            <div class="reason-top">
+              <h3 class="card-title">Внеплановая закупка</h3>
+              <span class="badge badge-oneoff">Разовый фактор</span>
+            </div>
+            <p class="card-text"><strong>Как выглядит:</strong> срочная замена техники, аварийный расход, разовая потребность.</p>
+            <p class="card-text" style="margin-top:8px;"><strong>Что делать:</strong> отдельно раскрыть причину, сумму и влияние на год.</p>
+          </article>
+
+          <article class="reason-card" data-category="planning">
+            <div class="reason-top">
+              <h3 class="card-title">Ошибка планирования</h3>
+              <span class="badge badge-planning">Ошибка планирования</span>
+            </div>
+            <p class="card-text"><strong>Как выглядит:</strong> не учли обязательное продление, сервис или объём работ.</p>
+            <p class="card-text" style="margin-top:8px;"><strong>Что делать:</strong> скорректировать прогноз и учесть ошибку в следующем бюджетном цикле.</p>
+          </article>
+
+          <article class="reason-card" data-category="posting">
+            <div class="reason-top">
+              <h3 class="card-title">Ошибка отражения</h3>
+              <span class="badge badge-posting">Ошибка отражения</span>
+            </div>
+            <p class="card-text"><strong>Как выглядит:</strong> расход отражён не на той статье.</p>
+            <p class="card-text" style="margin-top:8px;"><strong>Что делать:</strong> исправить классификацию вместе с финансовой службой.</p>
+          </article>
+
+          <article class="reason-card" data-category="project">
+            <div class="reason-top">
+              <h3 class="card-title">Изменение проекта</h3>
+              <span class="badge badge-project">Изменение проекта</span>
+            </div>
+            <p class="card-text"><strong>Как выглядит:</strong> изменился объём внедрения или подрядных работ.</p>
+            <p class="card-text" style="margin-top:8px;"><strong>Что делать:</strong> пересчитать бюджет проекта и влияние на лимит.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- =========================
+           Roles
+      ========================== -->
+      <section class="surface-card section-anchor reveal" id="roles">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">8. Роли и ответственность</div>
+            <h2 class="section-title">Кто за что отвечает в бюджетном процессе</h2>
+            <p class="section-copy">
+              Роли разделяются так, чтобы у каждой статьи был расчёт, комментарий и понятный владелец решения.
+            </p>
+          </div>
+        </div>
+
+        <div class="content-grid-4" id="roleCards">
+          <article class="role-card active" tabindex="0">
+            <div class="role-meta">
+              <span class="role-badge">Role 01</span>
+              <span class="tag">Ключевая роль</span>
+            </div>
+            <h3 class="card-title">Руководитель IT / руководитель ЦФО</h3>
+            <p class="card-text">Отвечает за формирование бюджета, прогноз и объяснение отклонений.</p>
+          </article>
+
+          <article class="role-card" tabindex="0">
+            <div class="role-meta">
+              <span class="role-badge">Role 02</span>
+              <span class="tag">Владелец статьи</span>
+            </div>
+            <h3 class="card-title">Владельцы статей бюджета</h3>
+            <p class="card-text">Готовят расчёты, подтверждают потребность и комментируют изменения.</p>
+          </article>
+
+          <article class="role-card" tabindex="0">
+            <div class="role-meta">
+              <span class="role-badge">Role 03</span>
+              <span class="tag">Методология</span>
+            </div>
+            <h3 class="card-title">Финансовая служба / FP&amp;A</h3>
+            <p class="card-text">Даёт форму, календарь, методологию и проверяет качество исходных данных.</p>
+          </article>
+
+          <article class="role-card" tabindex="0">
+            <div class="role-meta">
+              <span class="role-badge">Role 04</span>
+              <span class="tag">Решение</span>
+            </div>
+            <h3 class="card-title">Функциональный директор / руководство</h3>
+            <p class="card-text">Принимает решения по лимитам, приоритетам и корректирующим мерам.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- =========================
+           Rules
+      ========================== -->
+      <section class="section-anchor reveal" id="rules">
+        <div class="rule-highlight">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">9. Минимальный набор управленческих правил</div>
+              <h2 class="section-title">Самый заметный блок страницы: базовые правила для ЦФО IT</h2>
+              <p class="section-copy">
+                Эти правила превращают бюджет в инструмент управления, а не в формальную таблицу.
+              </p>
+            </div>
+          </div>
+
+          <div class="rules-grid">
+            <article class="rule-card">
+              <div class="rule-number">1</div>
+              <p class="card-text">Все значимые статьи должны иметь расчёт через драйвер.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-number">2</div>
+              <p class="card-text">Разовые и регулярные расходы нельзя смешивать в комментариях.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-number">3</div>
+              <p class="card-text">Перенос расхода между месяцами не считается экономией.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-number">4</div>
+              <p class="card-text">Отклонение нужно объяснять причиной, а не только цифрой.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-number">5</div>
+              <p class="card-text">По каждому существенному отклонению должно быть действие.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-number">6</div>
+              <p class="card-text">Прогноз обновляется регулярно, даже если “ничего не изменилось”.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-number">7</div>
+              <p class="card-text">Повторяющееся отклонение несколько месяцев — уже системный фактор.</p>
+            </article>
+            <article class="rule-card">
+              <div class="rule-number">8</div>
+              <p class="card-text">Все внеплановые расходы должны быть отдельно раскрыты.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           Checklist
+      ========================== -->
+      <section class="section-anchor reveal" id="checklist">
+        <div class="checklist-card">
+          <div class="checklist-header">
+            <div>
+              <div class="eyebrow">10. Ежемесячный чек-лист руководителя ЦФО IT</div>
+              <h2 class="section-title">Интерактивный рабочий цикл на месяц</h2>
+              <p class="section-copy">
+                Отметьте шаги, чтобы контролировать полноту подготовки данных, качества прогноза и комментариев по отклонениям.
+              </p>
+            </div>
+
+            <div class="checklist-meta">
+              <div class="checklist-progress">
+                <div class="checklist-counter" id="checklistCounter">Выполнено 0 из 15</div>
+                <div class="progress"><span id="checklistBar" style="width:0%"></span></div>
+              </div>
+              <button class="ghost-btn btn-print-only-hide" type="button" id="resetChecklistBtn">Сбросить отметки</button>
+            </div>
+          </div>
+
+          <div class="checklist-list" id="checklistList">
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Взять утверждённый план</div>
+                <p class="check-desc">Подтвердить базу сравнения по всем значимым статьям бюджета.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Получить факт</div>
+                <p class="check-desc">Сверить отражённые расходы по текущему периоду.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Обновить данные по обязательствам</div>
+                <p class="check-desc">Проверить договоры, подписанные обязательства и графики оплат.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Собрать информацию по закупкам и продлениям</div>
+                <p class="check-desc">Проверить предстоящие продления лицензий, поставки и сервисные контракты.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Учесть уже понесённые расходы</div>
+                <p class="check-desc">Это обязательная база для построения прогноза.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Добавить ожидаемые расходы до конца периода</div>
+                <p class="check-desc">Включить обязательства, продления, поставки и известные потребности.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Проверить переносы и новые потребности</div>
+                <p class="check-desc">Не допустить ложной “экономии” из-за сдвига по срокам.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Определить крупные отклонения</div>
+                <p class="check-desc">Выделить статьи, требующие управленческого объяснения.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Разделить причины по категориям</div>
+                <p class="check-desc">Объём, цена, срок, разовый фактор, ошибка планирования или отражения.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Подготовить комментарий по существенным статьям</div>
+                <p class="check-desc">Указать отклонение, причину, влияние на год, действие и ответственного.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Проверить отклонения по обязательным расходам</div>
+                <p class="check-desc">Это критичные зоны, где ошибка планирования особенно заметна.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Проверить проектные и разовые расходы отдельно</div>
+                <p class="check-desc">Не смешивать их с регулярными расходами в объяснениях.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Предложить меры: перенос</div>
+                <p class="check-desc">Оценить возможность сдвига сроков без ущерба для бизнеса.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Предложить меры: сокращение / оптимизация</div>
+                <p class="check-desc">Проверить объём, тариф, потребление, состав поставщиков и сервисов.</p>
+              </div>
+            </label>
+
+            <label class="check-item">
+              <input type="checkbox" />
+              <div>
+                <div class="check-title">Подготовить вопрос на корректировку лимита при необходимости</div>
+                <p class="check-desc">Если отклонение объективно и существенно влияет на итог периода.</p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           Example
+      ========================== -->
+      <section class="section-anchor reveal" id="example">
+        <div class="example-wrap">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">11. Короткий пример</div>
+              <h2 class="section-title">Пример управленческого анализа по статьям ЦФО IT</h2>
+              <p class="section-copy">
+                Ниже — компактный рабочий пример, который показывает, как соединяются план, факт, прогноз, причина отклонения и действие руководителя.
+              </p>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table aria-label="Короткий пример по бюджету ЦФО IT">
+              <thead>
+                <tr>
+                  <th>Статья</th>
+                  <th>План, руб.</th>
+                  <th>Факт, руб.</th>
+                  <th>Прогноз, руб.</th>
+                  <th>Отклонение факт-план, руб.</th>
+                  <th>Причина</th>
+                  <th>Действие руководителя</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Лицензии ПО</td>
+                  <td class="mono">500&nbsp;000</td>
+                  <td class="mono">620&nbsp;000</td>
+                  <td class="mono">650&nbsp;000</td>
+                  <td class="mono negative">+120&nbsp;000</td>
+                  <td>Подключены новые пользователи вне плана</td>
+                  <td>Пересчитать годовой прогноз и вынести вопрос на согласование</td>
+                </tr>
+                <tr>
+                  <td>Сервисная поддержка</td>
+                  <td class="mono">300&nbsp;000</td>
+                  <td class="mono">280&nbsp;000</td>
+                  <td class="mono">300&nbsp;000</td>
+                  <td class="mono positive">-20&nbsp;000</td>
+                  <td>Часть работ сместилась на следующий месяц</td>
+                  <td>Обновить помесячный график</td>
+                </tr>
+                <tr>
+                  <td>Ноутбуки</td>
+                  <td class="mono">800&nbsp;000</td>
+                  <td class="mono">0</td>
+                  <td class="mono">800&nbsp;000</td>
+                  <td class="mono positive">-800&nbsp;000</td>
+                  <td>Поставка перенесена</td>
+                  <td>Не считать экономией, скорректировать прогноз</td>
+                </tr>
+                <tr>
+                  <td>Облачные сервисы</td>
+                  <td class="mono">200&nbsp;000</td>
+                  <td class="mono">245&nbsp;000</td>
+                  <td class="mono">260&nbsp;000</td>
+                  <td class="mono negative">+45&nbsp;000</td>
+                  <td>Рост потребления ресурсов</td>
+                  <td>Проверить лимиты, оптимизировать потребление</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="example-summary">
+            <h3>Управленческий вывод</h3>
+            <p>
+              Снижение факта по закупке техники нельзя считать экономией, если расход просто сместился по сроку. Одновременно перерасход по лицензиям и облачным сервисам уже показывает изменение потребности. Руководителю ЦФО IT нужно пересчитать ожидаемый итог периода, объяснить причины и предложить меры: оптимизация, перераспределение или пересмотр лимита.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================
+           Final
+      ========================== -->
+      <section class="section-anchor reveal" id="final">
+        <div class="footer-card">
+          <div class="section-head">
+            <div>
+              <div class="eyebrow">12. Финальный блок</div>
+              <h2 class="section-title">Заключение для руководителя ЦФО IT</h2>
+              <p class="section-copy">
+                Управленческая ценность бюджета появляется тогда, когда у каждой значимой статьи есть расчёт, прогноз и объяснение причины отклонения вместе с действием.
+              </p>
+            </div>
+          </div>
+
+          <div class="content-grid-2">
+            <article class="mini-card">
+              <div class="card-label">Основные выводы</div>
+              <ul class="card-list">
+                <li>Бюджет IT должен строиться от реальной потребности и драйверов расхода.</li>
+                <li>Прогноз — это раннее предупреждение о рисках, а не формальность.</li>
+                <li>Отклонения нужно раскрывать через причину, влияние и действие.</li>
+                <li>Перенос расходов нельзя путать с экономией.</li>
+              </ul>
+            </article>
+
+            <article class="mini-card">
+              <div class="card-label">Summary</div>
+              <p class="card-text">
+                Руководитель ЦФО IT управляет не только суммой бюджета, но и качеством расчёта, прозрачностью прогнозирования и скоростью реакции на отклонения.
+              </p>
+            </article>
+          </div>
+
+          <div class="decision-principles">
+            <article class="principle">
+              <h3 class="principle-title">1. Сначала причина</h3>
+              <p>Любая цифра без объяснения причины — слабая основа для решения.</p>
+            </article>
+            <article class="principle">
+              <h3 class="principle-title">2. Сначала прогноз</h3>
+              <p>Проблему нужно увидеть до закрытия периода, а не после него.</p>
+            </article>
+            <article class="principle">
+              <h3 class="principle-title">3. Разделять регулярное и разовое</h3>
+              <p>Иначе комментарии теряют точность и сопоставимость.</p>
+            </article>
+            <article class="principle">
+              <h3 class="principle-title">4. Действие по отклонению</h3>
+              <p>Каждое существенное отклонение должно вести к решению или инициативе.</p>
+            </article>
+            <article class="principle">
+              <h3 class="principle-title">5. Повторяемость = системность</h3>
+              <p>Повторяющееся отклонение — это уже не случайность, а управленческий сигнал.</p>
+            </article>
+          </div>
+
+          <p class="footer-note">
+            Материал сверстан как краткий внутренний digital-guide и может использоваться как экранная памятка, рабочий документ и print-friendly версия для обсуждения с коллегами.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* =========================
+         Utility helpers
+      ========================= */
+      const $ = (selector, scope = document) => scope.querySelector(selector);
+      const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
+
+      /* =========================
+         Print buttons
+      ========================= */
+      const printButtons = ["#printBtn", "#printBtnMobile"];
+      printButtons.forEach((selector) => {
+        const btn = $(selector);
+        if (btn) {
+          btn.addEventListener("click", () => window.print());
+        }
+      });
+
+      /* =========================
+         Accordion logic
+      ========================= */
+      const accordions = $$(".accordion");
+
+      function setAccordionState(accordion, open) {
+        const header = $(".accordion-header", accordion);
+        if (!header) return;
+        accordion.classList.toggle("open", open);
+        header.setAttribute("aria-expanded", String(open));
+      }
+
+      accordions.forEach((accordion) => {
+        const header = $(".accordion-header", accordion);
+        const isOpen = accordion.classList.contains("open");
+        setAccordionState(accordion, isOpen);
+
+        header?.addEventListener("click", () => {
+          const currentlyOpen = accordion.classList.contains("open");
+          setAccordionState(accordion, !currentlyOpen);
+        });
+      });
+
+      function openAllAccordions() {
+        accordions.forEach((accordion) => setAccordionState(accordion, true));
+      }
+
+      function closeAllAccordions() {
+        accordions.forEach((accordion) => setAccordionState(accordion, false));
+      }
+
+      ["#expandAllBtn", "#expandAllBtnMobile"].forEach((selector) => {
+        const btn = $(selector);
+        btn?.addEventListener("click", openAllAccordions);
+      });
+
+      ["#collapseAllBtn", "#collapseAllBtnMobile"].forEach((selector) => {
+        const btn = $(selector);
+        btn?.addEventListener("click", closeAllAccordions);
+      });
+
+      $$("[data-accordion-open]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = document.getElementById(btn.dataset.accordionOpen);
+          if (target) setAccordionState(target, true);
+        });
+      });
+
+      $$("[data-accordion-close]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const target = document.getElementById(btn.dataset.accordionClose);
+          if (target) setAccordionState(target, false);
+        });
+      });
+
+      /* =========================
+         Tabs logic
+      ========================= */
+      $$("[data-tabs]").forEach((tabsRoot) => {
+        const buttons = $$(".tab-btn", tabsRoot);
+        const panels = $$(".tab-panel", tabsRoot);
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const targetId = button.dataset.tabTarget;
+
+            buttons.forEach((btn) => {
+              btn.classList.remove("active");
+              btn.setAttribute("aria-selected", "false");
+            });
+
+            panels.forEach((panel) => panel.classList.remove("active"));
+
+            button.classList.add("active");
+            button.setAttribute("aria-selected", "true");
+
+            const targetPanel = $("#" + targetId, tabsRoot);
+            targetPanel?.classList.add("active");
+          });
+        });
+      });
+
+      /* =========================
+         Smooth scroll focus support
+      ========================= */
+      const navLinks = $$(".nav-link");
+      navLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          const href = link.getAttribute("href");
+          if (!href || !href.startsWith("#")) return;
+          const target = document.querySelector(href);
+          if (!target) return;
+          event.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          history.replaceState(null, "", href);
+        });
+      });
+
+      /* =========================
+         Active nav on scroll
+      ========================= */
+      const sections = $$("main .section-anchor");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const id = "#" + entry.target.id;
+            navLinks.forEach((link) => {
+              link.classList.toggle("active", link.getAttribute("href") === id);
+            });
+          });
+        },
+        {
+          rootMargin: "-40% 0px -45% 0px",
+          threshold: 0.01
+        }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+
+      /* =========================
+         Reveal on scroll
+      ========================= */
+      const revealItems = $$(".reveal");
+      const revealObserver = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("visible");
+            obs.unobserve(entry.target);
+          });
+        },
+        {
+          threshold: 0.12
+        }
+      );
+
+      revealItems.forEach((item) => revealObserver.observe(item));
+
+      /* =========================
+         Dashboard bars animation
+      ========================= */
+      function animateBars() {
+        $$(".progress[data-progress]").forEach((el) => {
+          const value = Math.max(0, Math.min(100, Number(el.dataset.progress || 0)));
+          const bar = $("span", el);
+          if (bar) requestAnimationFrame(() => { bar.style.width = value + "%"; });
+        });
+
+        $$(".compare-bar[data-compare]").forEach((el) => {
+          const value = Math.max(0, Math.min(100, Number(el.dataset.compare || 0)));
+          const bar = $("span", el);
+          if (bar) requestAnimationFrame(() => { bar.style.width = value + "%"; });
+        });
+      }
+
+      window.addEventListener("load", animateBars);
+
+      /* =========================
+         Checklist logic
+      ========================= */
+      const checklistList = $("#checklistList");
+      const checklistCounter = $("#checklistCounter");
+      const checklistBar = $("#checklistBar");
+      const resetChecklistBtn = $("#resetChecklistBtn");
+
+      function updateChecklist() {
+        const items = $$("label.check-item", checklistList);
+        const checkboxes = $$('input[type="checkbox"]', checklistList);
+        const checkedCount = checkboxes.filter((input) => input.checked).length;
+        const total = checkboxes.length;
+        const percent = total ? Math.round((checkedCount / total) * 100) : 0;
+
+        items.forEach((item) => {
+          const input = $('input[type="checkbox"]', item);
+          item.classList.toggle("completed", !!input?.checked);
+        });
+
+        checklistCounter.textContent = `Выполнено ${checkedCount} из ${total}`;
+        checklistBar.style.width = percent + "%";
+      }
+
+      checklistList?.addEventListener("change", updateChecklist);
+
+      resetChecklistBtn?.addEventListener("click", () => {
+        $$('input[type="checkbox"]', checklistList).forEach((input) => {
+          input.checked = false;
+        });
+        updateChecklist();
+      });
+
+      updateChecklist();
+
+      /* =========================
+         Role cards interaction
+      ========================= */
+      const roleCards = $$("#roleCards .role-card");
+      roleCards.forEach((card) => {
+        function activateCard() {
+          roleCards.forEach((item) => item.classList.remove("active"));
+          card.classList.add("active");
+        }
+        card.addEventListener("click", activateCard);
+        card.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            activateCard();
+          }
+        });
+      });
+
+      /* =========================
+         Reasons filter
+      ========================= */
+      const filterContainer = $("#reasonFilters");
+      const reasonCards = $$("#reasonsGrid .reason-card");
+
+      filterContainer?.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-filter]");
+        if (!button) return;
+
+        const filter = button.dataset.filter;
+        $$(".filter-chip", filterContainer).forEach((chip) => chip.classList.remove("active"));
+        button.classList.add("active");
+
+        reasonCards.forEach((card) => {
+          const category = card.dataset.category;
+          const show = filter === "all" || category === filter;
+          card.classList.toggle("hidden", !show);
+        });
+      });
+
+      /* =========================
+         Focus-visible fallback for keyboard users
+      ========================= */
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Tab") {
+          document.documentElement.classList.add("user-tabbing");
+        }
+      });
+
+      document.addEventListener("mousedown", () => {
+        document.documentElement.classList.remove("user-tabbing");
+      });
+    })();
+  </script>
+</body>
+</html>
